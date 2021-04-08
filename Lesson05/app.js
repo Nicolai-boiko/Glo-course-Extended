@@ -6,12 +6,20 @@ arr.forEach((number) => {
 });
 
 
-primeNumber:
-for (let i = 2; i < 100; i++) {
-    for (let j = 2; j < i; j++) {
-        if ( i % j == 0) {
-            continue primeNumber;
-        }     
+function isPrime(n) {
+    for (let i = 2; i < n; i++) {
+      if ( n % i == 0) return false;
     }
-    console.log(`${i} делится на 1 и ${i}`);
-}
+    return true;
+  }
+  
+  function showPrimes(n) {
+  
+    for (let i = 2; i < n; i++) {
+      if (!isPrime(i)) continue;
+  
+      console.log(`${i} делится на 1 и ${i}`);
+    }
+  }
+  showPrimes(100);
+  
