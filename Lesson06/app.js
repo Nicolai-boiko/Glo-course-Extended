@@ -12,9 +12,6 @@ let isNumber = function (n) {
     let attempts = 10;
 
     (function start(){
-        console.dir(start);
-        console.dir(letsPlay);
-        let number = randomNumber;
         console.log(number);
         let enterNumber = prompt('Угадай число от 1 до 100');
             if (enterNumber === null){
@@ -23,7 +20,7 @@ let isNumber = function (n) {
                 alert('Введи число!');
                 start();
             } else {
-                if (+enterNumber > number) {
+                if (+enterNumber > randomNumber) {
                     --attempts;
                         if (attempts === 0) {
                             let tryAgain = confirm('Попытки закончились, хотите сыграть еще?');
@@ -32,7 +29,7 @@ let isNumber = function (n) {
                             alert(`Загаданное число меньше, осталось попыток ${attempts}`);
                             start();
                         }
-                } else if (+enterNumber < number) {
+                } else if (+enterNumber < randomNumber) {
                     --attempts;
                         if (attempts === 0) {
                             let tryAgain = confirm('Попытки закончились, хотите сыграть еще?');
@@ -41,7 +38,7 @@ let isNumber = function (n) {
                             alert(`Загаданное число больше, осталось попыток ${attempts}`);
                             start();
                         }
-                } else if (+enterNumber === number) {
+                } else if (+enterNumber === randomNumber) {
                     alert('Поздравляю, Вы угадали!!!');
                     let tryAgain = confirm('Хотите сыграть еще?');
                             tryAgain ? letsPlay () : alert('Игра окончена');
