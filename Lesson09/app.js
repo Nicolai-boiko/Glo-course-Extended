@@ -45,7 +45,7 @@ function strMinSecEnd(str) {
 
 
 
-inputDateA.innerHTML = `Сегодня ${weekArr[day]}, ${dayDate}, ${monthArr[month]} ${year} года, ${hours} час${strHourEnd(hours)} ${minutes} минут${strMinSecEnd(minutes)} ${seconds} секунд${strMinSecEnd(seconds)}`;
+inputDateA.innerHTML = `Сегодня ${weekArr[day]}, ${dayDate}, ${monthArr[month]} ${year} года, ${hours} час${strHourEnd(hours)} ${addZero(minutes)} минут${strMinSecEnd(minutes)} ${addZero(seconds)} секунд${strMinSecEnd(seconds)}`;
 inputDateB.innerHTML = `${addZero(dayDate)}.${addZero(month)}.${year} - ${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`;
 };
 
