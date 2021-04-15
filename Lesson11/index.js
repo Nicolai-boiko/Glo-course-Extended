@@ -22,7 +22,6 @@ let periodAmount = document.querySelector('.period-amount');
 let periodSelect = document.querySelector('.period-select');
 let inputPlaceholderName = document.querySelectorAll('.income-title:not(.title), .additional_income-item, .expenses-title:not(.title)');
 let inputPlaceholderSum = document.querySelectorAll('.income-amount, .expenses-amount');
-console.log(inputPlaceholderSum);
 
 let isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n)
@@ -168,27 +167,18 @@ let appData = {
         return appData.budgetMonth * periodSelect.value;
     },
     inputNameValidation: function () {
-        const regex = /[а-яА-Я0-9\.\,]/;
+        const regex = /[^а-яА-Я0-9\.\,]/g;
         inputPlaceholderName.forEach(input => {
-            for (let i = 0; i < input.value.length; i++) {
-                if (!input.value[i].match(regex)) {
-                    input.value = input.value.slice(0, input.value.length - 1);
-                }
-            }
+            input.value = input.value.replace(regex, '');
         });
     },
     inputSumValidation: function () {
-        const regex = /[0-9]/;
+        const regex = /[^0-9]/;
         inputPlaceholderSum.forEach(input => {
-            for (let i = 0; i < input.value.length; i++) {
-                if (!input.value[i].match(regex)) {
-                    input.value = input.value.slice(0, input.value.length - 1);
-                }
-            }
+            input.value = input.value.replace(regex, '');
         });
     },
 };
-
 start.addEventListener('click', () => {
     if (monthSalaryAmount.value === '') {
         return;
@@ -201,4 +191,3 @@ incomeAddButton.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.getPeriodAmout);
 inputPlaceholderName.forEach(input => input.addEventListener('input', appData.inputNameValidation));
 inputPlaceholderSum.forEach(input => input.addEventListener('input', appData.inputSumValidation));
-
