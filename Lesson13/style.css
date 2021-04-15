@@ -1,0 +1,19 @@
+.wrapper {
+  max-width: 300px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.text {
+  margin-top: 100px;
+  margin-bottom: 30px;
+  font-size: 30px;
+}
+.button {
+  width: 200px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+}
