@@ -11,19 +11,23 @@ DomElement.prototype.createEl = function (str = '') {
       let crDiv = document.createElement('div');
       crDiv.classList = this.selector.slice(1);
       crDiv.innerText = str;
-      crDiv.style.height = this.height;
-      crDiv.style.width = this.width;
-      crDiv.style.background = this.bg;
-      crDiv.style.fontSize = this.fontSize;
+      crDiv.style.cssText = `
+        height: ${this.height};
+        width: ${this.width};
+        background: ${this.bg};
+        font-size: ${this.fontSize};
+        `;
       document.body.append(crDiv);
   } else if (this.selector[0] === '#') {
       let crP = document.createElement('p');
       crP.id = this.selector.slice(1);
       crP.innerText = str;
-      crP.style.height = this.height;
-      crP.style.width = this.width;
-      crP.style.background = this.bg;
-      crP.style.fontSize = this.fontSize;
+      crP.style.cssText = `
+        height: ${this.height};
+        width: ${this.width};
+        background: ${this.bg};
+        font-size: ${this.fontSize};
+        `;
       document.body.append(crP);
   }
 };
