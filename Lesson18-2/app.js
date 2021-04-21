@@ -21,6 +21,7 @@ function animation() {
 function resetAnimation() {
     circle.style.top = startStop.style.height;
     cancelAnimationFrame(reqId);
+    animate = false;
 }
 
 startStop.addEventListener('click', showAnimation);
