@@ -115,11 +115,36 @@ window.addEventListener('DOMContentLoaded', function() {
     };
     togglePopup();
 
-    //Прокрутка по кнопке с картинкой мышки
+    //Прокрутка по пунктам меню и кнопке с картинкой мышки
     const scrollNextSlide = () => {
         const nextSlideBtn = document.querySelector('[href="#service-block"]');
         const mainHeight = document.querySelector('main').getBoundingClientRect().height;
-        console.log(mainHeight);
+        const menu = document.querySelector('menu');
+        const menuItem = menu.querySelectorAll('ul > li > a');
+        let arrHeight = [];
+        menuItem.forEach((item, i) => {
+            let attr = item.getAttribute('href');
+            let elemHeight = document.querySelector(`${attr}`).getBoundingClientRect().height;
+            console.log(elemHeight);
+            arrHeight.push(elemHeight);
+            let neededHeight = arrHeight.reduce((acc, value) => acc + value, 0);
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                animate({
+                    duration: 500,
+                    timing: function(timeFraction) {
+                    return timeFraction;
+                    },
+                    draw: function(progress) {
+                        if (document.documentElement.scrollTop === 0){
+                            document.documentElement.scrollTop = progress * (neededHeight - elemHeight);
+                        } else {
+                            window.scrollBy(0, progress * (neededHeight - elemHeight - document.documentElement.scrollTop))
+                        }
+                    }
+                });
+            })
+        })
 
         nextSlideBtn.addEventListener('click', (e) => {
             e.preventDefault();
