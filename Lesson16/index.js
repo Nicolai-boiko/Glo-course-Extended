@@ -26,12 +26,23 @@ let expensesItems = document.querySelectorAll('.expenses-items');
 let incomeItems = document.querySelectorAll('.income-items');
 let inputPlaceholderName;
 let inputPlaceholderSum;
+let localData = JSON.parse(localStorage.getItem('budgetData')) || [];
 
 
 const isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n)
 };
 
+function deleteAllCookies() {
+    let cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        let eqPos = cookie.indexOf("=");
+        let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+}
 
 class AppData {
     constructor () {
@@ -47,6 +58,31 @@ class AppData {
         this.deposit = false;
         this.moneyDeposit = 0;
         this.percentDeposit = 0;
+
+        if (localStorage.getItem('budgetData')) {
+            let inputTypeText = document.querySelectorAll('input[type=text], .btn_plus, #deposit-check');
+            inputTypeText.forEach(input => input.setAttribute("disabled", "true"));
+            calculate.style.display = 'none';
+            cancel.style.display = 'block';
+        }
+
+        localData.forEach(obj => {
+            document.querySelector(`.${obj.name}`).children[1].value = obj.value;
+        });
+
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let cookieArray = decodedCookie.split('; ').map(item => item.split('='));
+
+        
+        localData.forEach(obj => {
+            if (!cookieArray.find(item => item[0] === obj.name && item[1] === obj.value)) {
+                    localStorage.removeItem('budgetData');
+                    deleteAllCookies()
+                } else if (decodedCookie === '') {
+                    localStorage.removeItem('budgetData');
+                    deleteAllCookies()
+                };
+            })
     }
 
     start() {
@@ -90,6 +126,26 @@ class AppData {
         periodSelect.addEventListener('change', function () {
             incomePeriodValue.value = this.calcSavedMoney();
         }.bind(this));
+
+
+
+        let titles = document.querySelectorAll('.result > div:not(:last-child)');
+        titles.forEach(item => {
+            let name = item.className;
+            let value = item.children[1].value;
+            let nameCookie = encodeURIComponent(item.className);
+            let valueCookie = encodeURIComponent(item.children[1].value);
+            let objData = {
+                name,
+                value
+            };
+            localData.push(objData);
+            localStorage.setItem('budgetData', JSON.stringify(localData));
+            document.cookie = `${nameCookie}=${valueCookie}`;
+        });
+        document.cookie = 'isLoad=true';
+
+
     };
     addExpensesBlock() {
         let cloneExpensesItem = expensesItems[0].cloneNode(true);
@@ -200,6 +256,9 @@ class AppData {
         this.moneyDeposit = 0;
         this.percentDeposit = 0;
 
+        localStorage.removeItem('budgetData');
+        deleteAllCookies()
+
         periodSelect.value = 1;
         const inputClear = document.querySelectorAll('.income-title:not(.title), .additional_income-item, .additional_expenses-item, .expenses-title:not(.title), .result-total, .income-amount, .expenses-amount, .salary-amount, .target-amount');
         inputClear.forEach(input => input.value = '');
@@ -269,7 +328,6 @@ class AppData {
 
 const appData = new AppData();
 appData.eventListners();
-
 
 
 
